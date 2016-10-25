@@ -1,0 +1,29 @@
+<div id="cover" style="width:640px; min-height:1000px;overflow-y: hidden;">
+    <div class="login_content">
+        <div class="login_header">
+            <!--<p id="error" class="login_error" ng-show="error != ''">{{error}}</p>-->
+        </div>
+        <form class="login_form">
+            <input type="text" style="display: none">
+            <input type="password" style="display: none">
+
+            <div class="login_layout_error">
+                <p id="error" class="login_error" ng-show="error != ''">{{error}}</p>
+            </div>
+            <div class="login_layout">
+                <label class="login_label_name login_label_layout"></label>
+                <input type="text" class="login_input_layout" ng-class="{'color_fff': user != ''}" ng-model="user" placeholder="请输入用户名" autocomplete="off">
+                <span ng-if="user != ''" ng-click="clear('user')"  class="btn_input_clear"></span>
+            </div>
+            <div class="login_layout">
+                <label class="login_label_password login_label_layout"></label>
+                <input type="password" class="login_input_layout" ng-class="{'color_fff': passwd != ''}" ng-model="passwd" placeholder="请输入密码" autocomplete="off">
+                <span ng-if="passwd != ''" ng-click="clear('passwd')" class="btn_input_clear" ></span>
+            </div>
+            <div class="store_password" ng-click="store_password = !store_password">
+                <i ng-class="{'icon_store_normal': !store_password, 'icon_store_sure': store_password}" class="icon_store "></i>记住密码
+            </div>
+            <button type="button" class="btn_login" ng-class="{'btn_login_error': error != ''}" ng-disabled="!user || !passwd" ng-click="submit()">登录</button>
+        </form>
+    </div>
+</div>

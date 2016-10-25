@@ -1,0 +1,74 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 111345,
+  "theatreName": "横店",
+  "results": {
+    "seatOccupancyRateAll": "16.2",
+    "ticketAll": 936,
+    "updateTime": 1452521199000,
+    "interval": 30,
+    "grossAll": 59254,
+    "seatAll": 5768,
+    "hallCount": 1234,
+    "movieList": [
+      {
+        "scheduleRate": "0.1",
+        "grossRate": "21.5",
+        "grossAll": 59254,
+        "seatAll": 5768,
+        "hallCount": 1234,
+        "ticketAll": 936,
+        "seatOccupancyRate": "2.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015"
+      },
+      {
+        "scheduleRate": "10",
+        "grossRate": "61.5",
+        "grossAll": 59254,
+        "seatAll": 5768,
+        "hallCount": 1234,
+        "ticketAll": 936,
+        "seatOccupancyRate": "32.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015"
+      },
+      {
+        "scheduleRate": "25",
+        "grossRate": "11.5",
+        "grossAll": 59254,
+        "seatAll": 5768,
+        "hallCount": 1234,
+        "ticketAll": 936,
+        "seatOccupancyRate": "12.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015"
+      }
+    ],
+    "cinemaList": [
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "北京传奇时代电影城",
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234,
+        "averageTicket": 86
+      },
+      {
+        "cinemaId": 11001801,
+        "cinemaName": "北京电影城",
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234,
+        "averageTicket": 86
+      }
+    ]
+  }
+}

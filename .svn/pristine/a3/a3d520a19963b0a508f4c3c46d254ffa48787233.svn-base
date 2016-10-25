@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=640px,user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <base href="/"/>
+    <title>横店院线排片监测</title>
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="lib/angular-loading-bar/loading-bar.css"/>
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap-datetimepicker.min.css"/>
+
+    <link rel="stylesheet" href="css/header.css"/>
+    <link rel="stylesheet" href="css/table.css"/>
+    <link rel="stylesheet" href="js/directives/pull-refresh/common.css">
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-ui-router/angular-ui-router.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.js"></script>
+    <script src="lib/oclazyload/ocLazyLoad.js"></script>
+    <script src="lib/angular-loading-bar/loading-bar.js"></script>
+    <script src="lib/angular-strap/angular-strap.min.js"></script>
+    <script src="lib/angular-strap/angular-strap.tpl.min.js"></script>
+    <script src="lib/bootstrap/bootstrap-datetimepicker.min.js"></script>
+
+
+    <!--<script src="lib/angular-chartjs-directive/chartjs-directive.js"></script>-->
+    <script src="js/config/config.js"></script>
+    <script src="js/service/service.js"></script>
+    <script src="js/providers/calculate.js"></script>
+    <script src="js/directives/navBar/navBar.js"></script>
+
+</head>
+<body>
+
+<div ng-app="app">
+    <div ui-view></div>
+</div>
+<script src="lib/echarts/echarts.js"></script>
+<script src="js/directives/pull-refresh/pull-refresh.js"></script>
+</body>
+</html>

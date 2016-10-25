@@ -1,0 +1,6 @@
+#container{
+    width:100%; transform:translate(0px,-61px);margin-top: 20px;margin-bottom: -61px;
+}
+#loadTip{
+    height:40px; line-height:40px; text-align:center;visibility: hidden; width:100%;
+}

@@ -1,0 +1,12 @@
+'use strict';
+angular.module('app')
+    .directive('navBar', function() {
+        return {
+            restrict: 'AE',
+            transclude: true,
+            scope: {
+                title: '='
+            },
+            template: '<div class="navbar-header"><a class="navbar-back"></a><h3 ng-transclude></h3></div>'
+        }
+    });

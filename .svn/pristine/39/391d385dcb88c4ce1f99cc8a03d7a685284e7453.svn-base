@@ -1,0 +1,123 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 12345,
+  "theatreName": "横店",
+  "results": {
+    "updateTime": 1452521199000,
+    "seatNum": 436,
+    "hallNum": 26,
+    "recmdIdx": "良好",
+    "cinemaId": 11051801,
+    "grossOrder": 6,
+    "cinemaName": "北京传奇时代电影城",
+    "movieList": [
+      {
+        "scheduleRate": "37.94",
+        "grossRate": "36.65",
+        "seatOccupancyRate": "2.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015",
+        "grossAll": 1234,
+        "hallCount": 1234,
+        "ticketAll": 1234,
+        "seatAll": 5768,
+        "showRate": 1.5
+      },
+      {
+        "scheduleRate": "39",
+        "grossRate": "38.35",
+        "seatOccupancyRate": "32.7",
+        "movieId": 6016,
+        "movieName": "寻龙诀（3D）",
+        "movieNum": "001205952015",
+        "grossAll": 1134,
+        "hallCount": 1434,
+        "ticketAll": 1334,
+        "seatAll": 5768,
+        "showRate": -2.5
+      },
+      {
+        "scheduleRate": "36.25",
+        "grossRate": "37.65",
+        "seatOccupancyRate": "1.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015",
+        "grossAll": 2234,
+        "hallCount": 2234,
+        "ticketAll": 2234,
+        "seatAll": 5768,
+        "showRate": 5.5
+      },
+      {
+        "scheduleRate": "32.05",
+        "grossRate": "33.15",
+        "seatOccupancyRate": "27.7",
+        "movieId": 6016,
+        "movieName": "寻龙诀（3D）",
+        "movieNum": "001205952015",
+        "grossAll": 122,
+        "hallCount": 125,
+        "ticketAll": 121,
+        "seatAll": 5768,
+        "showRate": -3.5
+      },
+      {
+        "scheduleRate": "37.94",
+        "grossRate": "36.65",
+        "seatOccupancyRate": "2.5",
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015",
+        "grossAll": 1234,
+        "hallCount": 1234,
+        "ticketAll": 1234,
+        "seatAll": 5768,
+        "showRate": 1.5
+      },
+      {
+        "scheduleRate": "39",
+        "grossRate": "38.35",
+        "seatOccupancyRate": "32.7",
+        "movieId": 6016,
+        "movieName": "寻龙诀（3D）",
+        "movieNum": "001205952015",
+        "grossAll": 1134,
+        "hallCount": 1434,
+        "ticketAll": 1334,
+        "seatAll": 5768,
+        "showRate": -2.5
+      },
+      {
+        "scheduleRate": "36.25",
+        "grossRate": "37.65",
+        "seatOccupancyRate": "1.5",
+        "movieId": 6013,
+        "movieName": "唐人街探案",
+        "movieNum": "001c06162015",
+        "grossAll": 2234,
+        "hallCount": 2234,
+        "ticketAll": 2234,
+        "seatAll": 5768,
+        "showRate": 5.5
+      },
+      {
+        "scheduleRate": "32.05",
+        "grossRate": "33.15",
+        "seatOccupancyRate": "27.7",
+        "movieId": 6016,
+        "movieName": "神探夏洛特",
+        "movieNum": "001205952015",
+        "grossAll": 122,
+        "hallCount": 125,
+        "ticketAll": 121,
+        "seatAll": 5768,
+        "showRate": -3.5
+      }
+    ]
+  }
+
+}

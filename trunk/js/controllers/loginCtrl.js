@@ -1,0 +1,55 @@
+'use strict';
+angular.module('app')
+    .controller('LoginCtrl',["$scope", "$state", '$timeout','$cookies', 'movieService',function ($scope, $state, $timeout,$cookies,movieService) {
+        (function(){
+            var height = window.innerHeight;
+            $('#cover').css('height',height);
+        }());
+        if($cookies.get('user') == undefined)
+        {
+            $scope.store_password = false;//不保存密码
+            $scope.user = '';
+            $scope.passwd = '';
+        } else {
+            $scope.store_password = true;//保存密码
+            $scope.user = $cookies.get('user');
+            $scope.passwd = $cookies.get('passwd');
+        }
+
+        $scope.error = '';
+
+
+        $scope.submit = function(){
+
+            var param = {
+                cinemaId: 1,
+                username: $scope.user,
+                password: $scope.passwd
+            };
+            movieService.login(param).then(function(res){
+                if(res.data.code == 'A00500')
+                {
+                    $scope.error = '';
+                    $cookies.put('sessionID','hengdianly');
+                    if($scope.store_password)
+                    {
+                        $cookies.put('user', $scope.user);
+                        $cookies.put('passwd', $scope.passwd);
+                    } else {
+                        $cookies.remove('user');
+                        $cookies.remove('passwd');
+                    }
+                    $cookies.put('theatreId',res.data.theatreId);
+                    $state.go("boxOffice");
+                } else {
+                    $scope.error = '账户名或密码不正确';
+                    $timeout(function(){
+                        $scope.error = '';
+                    },3000);
+                }
+            });
+        };
+        $scope.clear = function(param){
+            $scope[param] = '';
+        };
+    }]);

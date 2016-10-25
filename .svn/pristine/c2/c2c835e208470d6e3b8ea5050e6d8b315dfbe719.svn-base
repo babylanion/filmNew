@@ -1,0 +1,149 @@
+button{
+    outline:none;
+}
+.filmOffice{
+    line-height: 27px;
+    vertical-align: middle !important;
+    margin-left: 18px;
+}
+.mainbody {
+    color: #000;
+    font-size: 16px;
+    text-align: center;
+    background: #ffffff;
+}
+.mainbody th {
+    height: 58px;
+    font-size: 20px;
+    border-right:1px solid #f9f9f9;
+}
+.mainbody thead tr:first-child{
+    text-align: left;
+}
+.mainbody thead tr:last-child{
+    border: none;
+}
+.mainbody thead{
+    border-top: 1px solid #b5c8f1;
+    border-bottom: 1px solid #f3f3f3;
+    font-weight: normal;
+}
+.mainbody .theadIndex{
+    border-top: 1px solid #b1b1b1;
+}
+.mainbody td {
+    font-size: 20px;
+    height: 80px;
+}
+.mainbody thead tr:last-child{
+    border: none;
+}
+.mainbody tbody tr:last-child{
+    border-bottom: none;
+}
+.mainbody tbody tr p{
+    text-align: center;
+}
+.mainbody .filmTitle {
+    text-align: left;
+    text-indent:20px;
+}
+.mainbody i {
+    display: block;
+    font-style: normal;
+    font-size: 1.4rem;
+    color: #818181;
+}
+.mainbody thead tr th {
+    height: 40px;
+    line-height: 40px;
+    color: #818181;
+    text-align: center;
+    font-weight: normal;
+}
+.mainbody tr td {
+    vertical-align: middle !important;
+}
+/*boxOffice&&&recommendedFilm���Ƽ�ӰƬ*/
+.film{
+    width:234px;
+    text-align: left;
+    text-indent: 20px;
+    padding-left: 0!important;
+}
+.boxOfficeTh thead tr th{
+    background: #ffffff;
+}
+#example > tbody > tr:nth-of-type(odd){
+    background: #ffffff;
+}
+#example > tbody > tr:nth-of-type(even){
+    background: #f9f9f9;
+}
+#film{
+    width: 233px;
+    font-size: 21px;
+    padding-left: 0;
+    padding-right: 0;
+}
+#cinema{
+    width: 246px;
+    padding-left: 0;
+}
+/* Ԥ��Ƭ�����ʽ */
+.mainbody tr th button {
+    width: 92%;
+    margin-left: -15px;
+    border: none;
+    color: #3a66c1;
+    background:url(../image/arrow.png) no-repeat right center/12px auto;
+}
+.mainbody tr th{
+    background:#dde4f4;
+
+}
+.name{
+    text-indent: 20px;
+    text-align: left;
+}
+#name{
+    width: 195px;
+    text-align: left!important;
+    text-indent:20px;
+    color: #3a66c1;
+}
+#name:hover{
+    background: #dde4f4;
+}
+#preSale{
+    width:140px;
+}
+#events{
+    width:159px;
+}
+.table-striped > tbody > tr:nth-of-type(odd){
+    background: #f9f9f9;
+}
+.table-striped > tbody > tr:nth-of-type(even){
+    background: #f1f1f1;
+}
+/* Ԥ��Ƭ-Ӱ�� */
+#Studios{
+    width: 227px;
+    /*text-align: left!important;*/
+    /*text-indent:20px;*/
+    color: #3a66c1!important;
+}
+#preOffice{
+    width:129px;
+}
+#events2{
+    width:149px;
+}
+/* ӰƬƱ�� */
+#filmName{
+    width: 210px;
+    /*text-align: left;*/
+    /*text-indent:20px;*/
+    color: #3a66c1;
+}

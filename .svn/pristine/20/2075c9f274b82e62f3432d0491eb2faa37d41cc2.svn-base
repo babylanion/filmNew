@@ -1,0 +1,124 @@
+'use strict';
+angular.module('app')
+    .controller('allCinemaCtrl', function($scope,movieService, $state, $rootScope, $filter,calculate,baseData) {
+        // 日期插件
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        // 可否编辑
+        $scope.date == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = true : $scope.isEditable = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        $scope.select = function(date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.startDate = '2015-09-01';
+        $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.selected = $state.params.date;
+        var datePre = calculate.neighborDay($scope.date, -1);
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function() {
+            $state.go('allCinema', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function() {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('allCinema', {date: dateNext});
+        };
+
+        //实时票房
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        $scope.id = $state.params.id;
+
+        //更新时间
+        $scope.currentDate = new Date();
+        //搜索功能
+        $scope.searchShow = true;
+        $scope.allCinemaSearch = function(){
+            $scope.searchShow = !$scope.searchShow;
+        };
+        //影片详情接口
+        var dateArray = $scope.date.split('-');
+        $scope.isPullDown = false;//初始化下拉为false启用loading
+        $scope.getallCinemasDistribution = function () {
+            if($scope.isPullDown == false){
+                $scope.loadingShow = true;
+            }
+            var params = {
+                theatreId: 1,
+                qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], 0, 0, 0)).getTime() / 1000
+            };
+            movieService.allCinemasDistribution(params).then(function (res) {
+                $scope.allCinemasDistribution = res.data;
+                angular.forEach($scope.allCinemasDistribution.results.cinemaList, function (val, item) {
+                 val.grossAll = val.grossAll * 1;
+                 val.ticketAll = val.ticketAll * 1;
+                 val.averageTicket = val.averageTicket * 1;
+                 });
+                $scope.loadingShow = false;
+                $scope.isPullDown = true;
+                hideLoading("#container");
+                $('#loadTip').css('visibility','hidden');
+            })
+        };
+        $scope.orderByFeild = 'movieName';
+        $scope.getallCinemasDistribution();
+        //loading
+        $scope.boxOfficeSearch = function(){
+            $scope.loadingShow = !$scope.loadingShow;
+        };
+        $scope.searchCinemasDistribution = function () {
+            var params = {
+                theatreId: 1,
+                qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], 0, 0, 0)).getTime() / 1000,
+                search:$scope.search
+            };
+            movieService.allCinemasDistribution(params).then(function (res) {
+                $scope.allCinemasDistributionSearch = res.data;
+            })
+        };
+
+        //下拉刷新调用
+        var hideLoading = function(obj1){
+            var obj = $(obj1);
+            var fn1 =
+            {
+                //移动容器
+                translate: function (diff) {
+                    obj.css({
+                        "-webkit-transform": "translate(0," + diff + "px)",
+                        "transform": "translate(0," + diff + "px)"
+                    });
+                },
+                //返回到初始位置
+                back: function () {
+                    fn1.translate(0 - 61);
+                }
+            };
+            fn1.back();
+        };
+        $(function () {
+            slide("#container", 61, function (e) {
+                var that = this;
+
+                //setTimeout(function () {
+                //    that.back.call(
+                        //console.log('aaa'),
+                        //$scope.allCinemasDistribution= {},
+                        $scope.currentDate = new Date();
+                        $scope.isPullDown = true;
+                        $scope.getallCinemasDistribution();
+                //    );
+                //}, 1000);
+
+            });
+        });
+
+    });

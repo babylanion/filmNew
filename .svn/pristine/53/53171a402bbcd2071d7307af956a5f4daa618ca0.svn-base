@@ -1,0 +1,69 @@
+<div class="container-fluid wrap">
+    <div class="row">
+        <div ui-view>
+            <div class="tittle">
+                <a ng-click="backPre()"><img src="../image/back2.png" alt="back" /></a>
+                <!--<img ui-sref="boxOffice({date: date})" src="../image/back2.png" alt="back"/>-->
+                <h2>{{movieRanking.results.movieName}}</h2>
+            </div>
+            <div class=" dateTools hbox">
+                <ul class="flex1 day_left">
+                    <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                            class="day_choose before">{{datePre}}</i></li>
+                </ul>
+                <ul id="ticketHisDate" data-com="dateBar,
+              minDate:'2011-01',
+              maxDate:'nextMonth',
+              selectMaxDate:'preSale',
+              dateFmt:'full_day',
+              preSale:'7'">
+                    <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                        <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                        <img src="image/date.png"/>
+                        <span id="theDay" style="display:none"></span>
+                    </li>
+                </ul>
+                <ul class="flex1 day_right">
+                    <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                            class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext}}</i></li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{movieRanking.results.updateTime | date:'HH:mm'}}</span></p>
+            </div>
+            <div class="col-md-12 prompt">院线推荐排片指数{{movieRanking.results.recmdIdx}}%</div>
+            <table class="mainbody table table-striped display" id="example">
+                <thead>
+                <tr>
+                    <th id="Studios">影院名称</th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'sellGross'; reverseSort = !reverseSort">票房占比
+                        </button>
+                    </th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'grossRate'; reverseSort = !reverseSort">排片占比
+                        </button>
+                    </th>
+                    <th>
+                        <button class="active" ng-click="order()">观影期望</button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in movieRanking.results.cinemaList | orderBy:orderByFeild:reverseSort">
+                    <td class="ng-binding filmTitle">{{li.cinemaName}}</td>
+                    <td class="ng-binding">{{li.grossRate}}%</td>
+                    <td class="ng-binding">{{li.grossRate}}%</td>
+                    <td class="ng-binding">{{li.showRate}}%<span ng-if="li.showRate>0"><img class="Arrow1"
+                                                                                            src="../image/to-up.png"
+                                                                                            alt="增长"/></span><span
+                            class="Arrow2" ng-if="li.showRate<0"><img
+                            src="../image/to-down.png" alt="降低"/></span></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+'use strict';
+angular.module('app')
+    .controller('PreStudiosCtrl', function($scope, $state, $rootScope,movieService, $filter,calculate) {
+        // 日期插件
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        // 可否编辑
+        $scope.date == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = true : $scope.isEditable = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        $scope.select = function(date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.startDate = '2015-09-01';
+        $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.selected = $state.params.date;
+        var datePre = calculate.neighborDay($scope.date, -1);
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function() {
+            $state.go('preStudios', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function() {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('preStudios', {date: dateNext});
+        };
+        //test
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        var dateArray = $scope.date.split('-');
+        $scope.params = {
+            theatreId: 12345,
+            qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], 0, 0, 0)).getTime() / 1000
+
+        };
+        $scope.getpresellCinema = function () {
+            movieService.presellCinema($scope.params).then(function(datas){
+                $scope.preStudios = datas.data;
+                console.log($scope.preStudios)
+            })
+        };
+        $scope.getpresellCinema();
+    });

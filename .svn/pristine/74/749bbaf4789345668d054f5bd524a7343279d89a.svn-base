@@ -1,0 +1,141 @@
+em {
+    font-style: normal;
+}
+.result {
+    background: #ffffff;
+}
+
+.result td {
+    font-family: "STXihei", "Microsoft YaHei", sans-serif;
+    border: none !important;
+    color: #818181;
+    font-size: 20px;
+    text-align: center;
+    padding: 0;
+}
+
+.blank {
+    height: 15px;
+}
+
+.result td img {
+    width: 100%;
+    max-width: 36px;
+    margin-top:12px;
+}
+
+.result td.nummber1, .result td.nummber2, .result td.nummber3 {
+    font-size: 44px;
+    font-family: Arial, sans-serif !important;
+    font-weight: bold;
+}
+
+.nummber1 {
+    color: #ff784e !important;
+}
+
+.nummber2 {
+    color: #3c99e0 !important;
+}
+
+.nummber3 {
+    color: #10c977 !important;
+}
+
+.film-office {
+    font-size: 24px;
+    line-height: 29px;
+    text-indent: 18px;
+    margin-bottom: 14px;
+    margin-top: 10px;
+    padding-left: 0;
+}
+
+.look-more {
+    text-align: right;
+    margin-right: 18px;
+    font-size: 18px;
+    color: #5683e1;
+    margin-top: 17px;
+}
+
+/* 序号样式 */
+.orderNumber {
+    width: 31px;
+    line-height: 21px;
+    font-size: 18px;
+    background: #e54c37;
+    color: #ffffff;
+    margin-right: 15px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+#orderNumber {
+    line-height: 21px;
+    display: inline;
+}
+
+/* 影片票房数字样式 */
+.boxOfficeNum {
+    color: #e54c37;
+    line-height: 27px;
+    font-size: 20px;
+    padding-top: 7px;
+    display: inline-block;
+}
+
+.boxOfficeName {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+    color: #5683e1;
+}
+
+/* 推荐和预排片按钮样式 */
+.footer {
+    width: 640px;
+    margin-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    border: none;
+}
+
+.recommended {
+    padding: 16px 0;
+    width: 300px;
+    font-size: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    color: #ffffff!important;
+    background: #668ef8 url(../image/star2.png) no-repeat 80px center/29px auto;
+}
+.recommended:hover{
+    color: #ffffff !important;
+    background: #2c3de1 url(../image/star2.png) no-repeat 80px center/29px auto;
+}
+.pre {
+    padding: 16px 0;
+    display: inline-block;
+    width: 300px;
+    font-size: 20px;
+    border-radius: 10px;
+    color: #ffffff;
+    margin-left: 13px;
+    background: #668ef8 url(../image/pre.png) no-repeat 80px center/29px auto;
+}
+.pre:hover{
+    color: #ffffff;
+    background: #2c3de1 url(../image/pre.png) no-repeat 80px center/29px auto;
+}
+.boxOfficeTr td {
+    border-bottom: 1px dashed #cecece;
+}
+
+.boxOfficeTr:last-child td {
+    border-bottom: none;
+}

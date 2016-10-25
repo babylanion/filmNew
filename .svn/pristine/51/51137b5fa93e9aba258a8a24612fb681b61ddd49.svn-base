@@ -1,0 +1,122 @@
+<div class="container-fluid wrap">
+    <div class="row">
+        <div ui-view>
+            <header class="logo">
+                <div id="tittle">横店院线排片监测</div>
+            </header>
+            <div class=" dateTools hbox">
+                <ul class="flex1 day_left">
+                    <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                            class="day_choose before">{{datePre | date:'MM-dd'}}</i></li>
+                </ul>
+                <ul id="ticketHisDate" data-com="dateBar,
+              minDate:'2011-01',
+              maxDate:'nextMonth',
+              selectMaxDate:'preSale',
+              dateFmt:'full_day',
+              preSale:'7'">
+                    <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                        <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                        <img src="../image/date.png"/>
+                        <span id="theDay" style="display:none"></span>
+                    </li>
+                </ul>
+                <ul class="flex1 day_right">
+                    <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                            class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext | date:'MM-dd'}}</i></li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{boxoffice.results.updateTime | date:'HH:mm'}}</span>
+                </p>
+            </div>
+            <datepicker ng-model="selected" start-date="startDate" end-date="endDate"></datepicker>
+            <table class="table result">
+                <thead>
+                <tr class="blank"></tr>
+                <tr>
+                    <td><img src="image/film.png"/></td>
+                    <td><img src="image/total.png"/></td>
+                    <td><img src="image/zuowei.png"/></td>
+                </tr>
+                <tr>
+                    <td class="nummber1">{{boxoffice.results.grossAll}}</td>
+                    <td class="nummber2">{{boxoffice.results.hallCount}}</td>
+                    <td class="nummber3">{{boxoffice.results.seatOccupancyRateAll}}%</td>
+                </tr>
+                <tr>
+                    <td>总票房(万)</td>
+                    <td>总排片(场)</td>
+                    <td>上座率</td>
+                </tr>
+                <tr class="blank"></tr>
+                </thead>
+            </table>
+            <div class="col-xs-3 film-office">影片票房</div>
+            <div class="col-xs-2 pull-right look-more" ui-sref="filmBoxOffice({date: date,id:boxoffice.ownerId})">查看更多
+            </div>
+            <table class="mainbody boxOfficeTh boxOffice table display">
+                <thead class="theadIndex">
+                <tr>
+                    <th id="film">影片</th>
+                    <th>票房占比</th>
+                    <th>排片占比</th>
+                    <th>上座率</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="li in boxoffice.results.movieList | orderBy:orderByFeild:reverseSort"
+                    ui-sref="filmRanking({date:date,id:li.movieId})" class=" boxOfficeTr" ng-show="$index<=2">
+                    <td class="ng-binding" colspan="4" style="padding: 1px 0;line-height: 27px;height: 100px;">
+                        <div class="col-sm-4 col-xs-4" style="padding: 30px 0 0 18px;"><span
+                                class="orderNumber col-sm-3 col-xs-3">{{$index+1 | secondNumFilter}}</span><span
+                                class="boxOfficeName col-sm-9 col-xs-9">{{li.movieName}}<br><span class="boxOfficeNum">{{li.grossAll}}万</span></span>
+                        </div>
+                        <div class="col-sm-8 col-xs-8" id="{{li.mainId}}" ng-class="selectLast($index)"
+                             style="height:116px;padding:0;"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-xs-3 film-office">影院票房</div>
+            <div class="col-xs-3 pull-right look-more" ui-sref="allCinema({id:boxoffice.ownerId,date: date})">查看更多</div>
+            <table class="mainbody boxOfficeTh table display table table-striped" id="example">
+                <thead class="theadIndex">
+                <tr>
+                    <th id="cinema">影院名称</th>
+                    <th>总票房</th>
+                    <th>总人次</th>
+                    <th>场均人次</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in boxoffice.results.cinemaList | orderBy:orderByFeild:reverseSort"
+                    ui-sref="singleCinema({id:li.cinemaId,date:date})"  ng-show="$index<=4">
+                    <td class="ng-binding filmTitle"><span class="orderNumber"
+                                                           style="text-indent: 0;text-align: center">{{$index+1 | secondNumFilter}}</span><span
+                            style="color: #5683e1;">{{li.cinemaName}}</span></td>
+                    <td class="ng-binding">{{li.grossAll}}万</td>
+                    <td class="ng-binding">{{li.ticketAll}}人</td>
+                    <td class="ng-binding">{{li.averageTicket}}人</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<table class="footer">-->
+                <!--<tr>-->
+                    <!--<td class="recommended" ui-sref="recommendedFilm({date: date,id:boxoffice.theatreId})"-->
+                        <!--style="color: #002a80">推荐排片-->
+                    <!--</td>-->
+                    <!--<td class="pre" ui-sref="preOffice({date: date})">预排片</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <div class="footer">
+
+                    <div class="recommended" ui-sref="recommendedFilm({date: date,id:boxoffice.theatreId})">推荐排片</div>
+                    <div class="pre" ui-sref="preOffice({date: date})">预排片</div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

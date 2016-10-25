@@ -1,0 +1,189 @@
+'use strict';
+angular.module('app')
+    .controller('recommendedFilmCtrl', function ($scope, $state, $filter, movieService, calculate, baseData) {
+        // 鏃ユ湡鎻掍欢
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        // 可否编辑
+        $scope.date == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = true : $scope.isEditable = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        var datePre = calculate.neighborDay($scope.date, -1);
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function () {
+            $state.go('recommendedFilm', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function () {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('recommendedFilm', {date: dateNext});
+        };
+
+        //瀹炴椂绁ㄦ埧
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        $scope.params = {
+            theatreId: baseData.theatreId,
+            qTime: (new Date()).getTime()
+        };
+        $scope.temp = {
+            dataName: [],
+            outer: [],
+            inner: []
+        };
+        //更新时间
+        $scope.currentDate = new Date();
+        //影片详情接口
+        $scope.getrecommended = function () {
+            movieService.recommended($scope.params).then(function (res) {
+                $scope.recommended = res.data;
+                angular.forEach($scope.recommended.results.realMovieList, function (val) {
+                    angular.forEach($scope.recommended.results.predictMovieList, function (val2) {
+                        if (val.movieId == val2.movieId) {
+                            val.scheduleRatePre = val2.scheduleRate;
+                        }
+
+                    });
+                    $scope.temp.dataName.push(val.movieName);
+                    $scope.temp.outer.push(val.scheduleRate);
+                    $scope.temp.inner.push(val.scheduleRatePre);
+                    /*val.ticketRate = val.ticketRate * 1;
+                     val.seatOccupancyRate = val.seatOccupancyRate * 1;*/
+                });
+                console.log($scope.temp);
+                $scope.renderChart($scope.temp);
+            })
+        };
+        $scope.orderByFeild = 'movieName';
+        $scope.getrecommended();
+        $scope.renderChart = function (temp) {
+            console.log('进入');
+            var radius1 = [107, 120];
+            var radius2 = [35, 74];
+            var outer = temp.outer;
+            var inner = temp.inner;
+            var name = temp.dataName;
+            var option = {
+                animation:false,
+                legend: {
+                    show: false,
+                    orient: 'vertical',
+                    x: 'left',
+                    data: name
+                },
+                series: [
+
+                    {
+                        type: 'pie',
+                        center: ['50%', '55%'],
+                        radius: radius1,
+                        x: '0%', // for funnel
+
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '18'
+                                    },
+                                    formatter: "{b}\n{d}%"
+                                },
+                                labelLine: {
+                                    show: true
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: false,
+                                    position: 'center',
+                                    textStyle: {
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            }
+                        },
+                        data: []
+                    },
+                    {
+                        type: 'pie',
+                        center: ['50%', '55%'],
+                        radius: radius2,
+                        x: '0%', // for funnel
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'outer',
+                                    align: 'center',
+                                    formatter: function (params) {
+                                        return (params.percent - 0).toFixed(0) + '%'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false,
+                                    position: 'inner',
+                                    length: -13
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: false
+                                },
+                                labelLine: {
+                                    show: false,
+                                    position: 'outer',
+                                    length: -18
+                                }
+                            }
+                        },
+                        data: []
+                    }
+                ]
+            };
+
+            for (var i = 0; i < name.length; i++) {
+                var dataBox = {
+                    outerData: {
+                        name: name[i],
+                        value: outer[i]
+                    },
+                    innerData: {
+                        name: name[i],
+                        value: inner[i]
+                    }
+                };
+                option.series[0].data.push(dataBox.outerData);
+                option.series[1].data.push(dataBox.innerData);
+                //option.series[3].data.push(dataBox.innerData);
+            }
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.setOption(option);
+        };
+        $(function () {
+            slide("#container", 61, function (e) {
+                var that = this;
+
+                setTimeout(function () {
+                    that.back.call(
+                        console.log('aaa'),
+                        $scope.recommended= {},
+                        $scope.firstFired = true,
+                        $scope.temp = {
+                            dataName: [],
+                            outer: [],
+                            inner: []
+                        },
+                        $scope.getrecommended()
+                    );
+                }, 1000);
+
+            });
+        });
+    });

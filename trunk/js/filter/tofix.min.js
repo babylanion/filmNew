@@ -1,0 +1,1 @@
+angular.module("app").filter("toFix",function(){return function(a){var b=parseFloat(a);if(isNaN(b)){return 0}b=Math.round(a*100)/100;var c=b.toString();var d=c.indexOf(".");if(d<0){d=c.length;c+="."}while(c.length<=d+2){c+="0"}return c}});

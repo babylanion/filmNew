@@ -1,0 +1,65 @@
+<div class="container-fluid wrap">
+    <div class="row">
+        <div ui-view>
+            <div class="tittle">
+                <img ui-sref="boxOffice" src="../image/back2.png" alt="back"/>
+                <h2>预排片</h2>
+            </div>
+            <div class=" dateTools hbox">
+                <ul class="flex1 day_left">
+                    {{}}
+                    <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                            class="day_choose before " ng-class="isEditable?'':'gray'">{{datePre}}</i></li>
+                </ul>
+                <ul id="ticketHisDate" data-com="dateBar,
+              minDate:'2011-01',
+              maxDate:'nextMonth',
+              selectMaxDate:'preSale',
+              dateFmt:'full_day',
+              preSale:'7'">
+                    <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({status:1,date: date})">
+                        <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                        <img src="image/date.png"/>
+                        <span id="theDay" style="display:none"></span>
+                    </li>
+                </ul>
+                <ul class="flex1 day_right">
+                    <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                            class="day_choose after" ng-class="isEditable1?'gray':''">{{dateNext}}</i></li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{preOffice.results.updateTime | date:'HH:mm'}}</span></p>
+            </div>
+            <table class="mainbody table table-striped display" id="example">
+                <thead>
+                <tr>
+                    <th id="name">影片名称</th>
+                    <th id="preSale">
+                        <button class="active" ng-click="orderByFeild = 'sellGross'; reverseSort = !reverseSort">预售票房
+                        </button>
+                    </th>
+                    <th id="events">
+                        <button class="active" ng-click="orderByFeild = 'scheduleRate'; reverseSort = !reverseSort">
+                            预排片场次
+                        </button>
+                    </th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'ticketRate'; reverseSort = !reverseSort">预售人次
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in preOffice.results.movieList | orderBy:orderByFeild:reverseSort"
+                    ui-sref="preStudios({date: date,id:li.movieId})">
+                    <td class="ng-binding name">{{li.movieName}}</td>
+                    <td class="ng-binding">{{li.grossAll}}万</td>
+                    <td class="ng-binding">{{li.hallCount}}</td>
+                    <td class="ng-binding">{{li.ticketAll}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

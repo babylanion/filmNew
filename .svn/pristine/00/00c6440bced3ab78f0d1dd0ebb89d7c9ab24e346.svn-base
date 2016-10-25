@@ -1,0 +1,34 @@
+/* 实时票房信息 */
+.realTimeInformation{
+    width: 400px;
+    font-size:20px;
+    display: inline-block;
+    margin:10px 0 16px 158px;
+}
+.realTimeInformation li{
+    width:190px;
+    margin-bottom: 4px;
+}
+#singleCinemaFilm{
+    width:144px;
+    color:#3a66c1;
+}
+.singleCinemaFilm{
+    width:128px;
+}
+.singleCinemaFilm button{
+    width: 108px;
+    padding-right: 20px;
+}
+.singleCinemaFilmOffice button{
+    width:72px!important;
+    padding-right: 20px;
+}
+#filmBtn{
+    width: 82px;
+}
+.singleCinemaName{
+    text-align: left;
+    display: inline-block;
+    margin-left:22px;
+}

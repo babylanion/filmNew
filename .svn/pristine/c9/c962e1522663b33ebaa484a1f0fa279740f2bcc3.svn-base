@@ -1,0 +1,8 @@
+angular.module('app')
+    .filter('toFix', function() {
+        return function(num) {
+            num1 = num+'';
+            return num1.slice(0,num1.length-1);
+
+        }
+    });

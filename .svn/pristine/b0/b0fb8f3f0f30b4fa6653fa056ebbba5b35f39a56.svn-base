@@ -1,0 +1,60 @@
+<div class="container-fluid">
+    <div class="row wrap">
+        <div ui-view>
+            <div class="tittle">
+                <!--<img ui-sref="boxOffice({date: date})" src="../image/back2.png" alt="back"/>-->
+                <a href="javascript:history.go(-1)"><img src="../image/back2.png" alt="back" /></a>
+                <h2>推荐排片</h2>
+            </div>
+            <div class=" dateTools hbox">
+                <ul class="flex1 day_left">
+                    <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                            class="day_choose before">{{datePre}}</i></li>
+                </ul>
+                <ul id="ticketHisDate" data-com="dateBar,
+              minDate:'2011-01',
+              maxDate:'nextMonth',
+              selectMaxDate:'preSale',
+              dateFmt:'full_day',
+              preSale:'7'">
+                    <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                        <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                        <img src="image/date.png"/>
+                        <span id="theDay" style="display:none"></span>
+                    </li>
+                </ul>
+                <ul class="flex1 day_right">
+                    <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                            class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext}}</i></li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>12:28{{boxoffice.results.updateTime | date:'HH:mm'}}</span></p>
+            </div>
+            <datepicker ng-model="selected" start-date="startDate" end-date="endDate"></datepicker>
+            <div id="main" style="height:340px;"></div>
+            <div class="legend"><span class="legendImg legendImgOuter"></span><span
+                    class="legendName">外环：实际排片</span><span class="legendImg legendImgInner"></span><span
+                    class="legendName">内环：推荐排片</span></div>
+            <table class="mainbody table display" id="example">
+                <thead>
+                <tr>
+                    <th id="film">影片</th>
+                    <th>推荐排片比例</th>
+                    <th>实际排片比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in recommended.results.realMovieList | orderBy:orderByFeild:reverseSort">
+                    <td class="ng-binding film">{{li.movieName}}</td>
+                    <td class="ng-binding">{{li.scheduleRatePre}}%</td>
+                    <td class="ng-binding">{{li.scheduleRate}}%</td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<div class="col-md-12">-->
+            <!--<p class="under"><a class=" fa fa-info-circle fa-fw"></a>更新于<span>{{boxoffice.results.updateTime | date:'HH:mm'}}</span>，每{{boxoffice.results.interval}}分钟更新一次</p>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>

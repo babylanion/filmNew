@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="row wrap">
+        <div class="tittle">
+            <img ui-sref="boxOffice" src="../image/back2.png" alt="back"/>
+            <h2>推荐排片</h2>
+        </div>
+        <div class=" dateTools hbox">
+            <ul class="flex1 day_left">
+                <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                        class="day_choose before prevDay" ng-class="isEditable?'':'gray'">{{datePre}}</i></li>
+            </ul>
+            <ul id="ticketHisDate"
+                data-com="dateBar,minDate:'2011-01',maxDate:'nextMonth',selectMaxDate:'preSale',dateFmt:'full_day',preSale:'7'">
+                <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({status:1,date: date})">
+                    <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                    <img src="image/date.png"/>
+                    <span id="theDay" style="display:none"></span>
+                </li>
+            </ul>
+            <ul class="flex1 day_right">
+                <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                        class="day_choose after nextDay" ng-class="isEditable1?'gray':''">{{dateNext}}</i></li>
+            </ul>
+        </div>
+        <datepicker ng-model="selected" start-date="startDate" end-date="endDate"></datepicker>
+        <div id="loadTip">
+            努力加载中...
+        </div>
+        <div id="container" style="width:100%; transform:translate(0px,-61px);position: relative;">
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{currentDate | date:'HH:mm:ss'}}</span></p>
+            </div>
+
+            <div id="main" style="height:340px;"></div>
+            <div class="legend"><span class="legendImg legendImgOuter"></span><span
+                    class="legendName">外环：实际排片</span><span class="legendImg legendImgInner"></span><span
+                    class="legendName">内环：推荐排片</span></div>
+            <table class="mainbody table display" id="example">
+                <thead>
+                <tr>
+                    <th id="film">影片</th>
+                    <th>推荐排片比例</th>
+                    <th>实际排片比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in recommended.results.realMovieList | orderBy:orderByFeild:reverseSort">
+                    <td class="ng-binding film">{{li.movieName}}</td>
+                    <td class="ng-binding">{{li.scheduleRatePre}}%</td>
+                    <td class="ng-binding">{{li.scheduleRate}}%</td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="width: 640px;
+                        height: 100%;
+                        background: #ffffff;
+                        position: absolute;
+                        top: 0;right:0;
+                        left:0;
+                        z-index: 2"
+                 ng-show="loadingShow == true">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

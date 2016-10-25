@@ -1,0 +1,71 @@
+.circleWrap {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    /*height: 100px;*/
+    text-align: left;
+    width: 67%;
+}
+
+.circleBackground {
+    z-index: 1;
+    width: 33.3333%;
+    height: 139px;
+    float: left;
+}
+
+.circleBackground1 {
+    background-color: #fef5e7;
+    width: 36.6%;
+    border-right: 1px solid white;
+}
+
+.circleBackground2 {
+    background-color: #e8fbf6;
+    width: 36.4%;
+    border-right: 1px solid white;
+}
+
+.circleBackground3 {
+    background-color: #f3f7ff;
+    width: 27%;
+}
+
+.circle {
+    z-index: 5;
+    height: 139px;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    position: absolute;
+    top: 0;
+}
+
+.table > tbody > tr > td.circleList {
+    padding: 0;
+}
+
+.circleListTr {
+    border-bottom: 1px dashed #cecece;
+    margin-bottom: 2px;
+}
+
+#example > tbody > tr:nth-of-type(even).circleListTr {
+    background-color: #ffffff;
+}
+
+.circleListName {
+    width: 33%;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    /*padding-top: 30px;*/
+    /*line-height: 58px;*/
+    padding: 30px 0 0 15px;
+    color: #5683e1;
+}
+.colorRed{
+    background:#e54c37;
+}
+.colorGray{
+    background: #b9b9b9;
+}

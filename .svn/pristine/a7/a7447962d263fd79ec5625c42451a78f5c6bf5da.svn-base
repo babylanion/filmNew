@@ -1,0 +1,13 @@
+'use strict';
+angular.module('app')
+    .controller('DatePickCtrl', function ($scope, $state, $rootScope, $filter) {
+
+        $scope.select = function (date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.startDate = '2015-09-01';
+        $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.selected = $state.params.date;
+
+    });

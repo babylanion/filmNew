@@ -1,0 +1,63 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 111345,
+  "theatreName": "横店",
+  "results": {
+    "recmdIdx": 27.6,
+    "updateTime": 1452521199000,
+    "pageIdx": 0,
+    "pageSize": 5,
+    "movieId": 6013,
+    "movieName": "小门神（3D）",
+    "movieNum": "001c06162015",
+    "cinemaList": [
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "中国横店",
+        "scheduleRate": "0.4",
+        "grossRate": "21.5",
+        "showRate": -1.5,
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234
+      },
+      {
+        "cinemaId": 11051802,
+        "cinemaName": "中国横店2",
+        "scheduleRate": "0.5",
+        "grossRate": "23.5",
+        "showRate": 1.5,
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234
+      },
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "中国横店",
+        "scheduleRate": "0.1",
+        "grossRate": "25.5",
+        "showRate": -2.5,
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234
+      },
+      {
+        "cinemaId": 11051802,
+        "cinemaName": "中国横店2",
+        "scheduleRate": "0.2",
+        "grossRate": "27.5",
+        "showRate": 3.5,
+        "grossAll": 123,
+        "ticketAll": 123,
+        "seatAll": 5768,
+        "hallCount": 1234
+      }
+    ]
+  }
+
+}

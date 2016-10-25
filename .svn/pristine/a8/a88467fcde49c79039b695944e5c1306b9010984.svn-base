@@ -1,0 +1,32 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 12345,
+  "theatreName": "横店",
+  "results": {
+    "updateTime": 1452521199000,
+    "movieId": 6013,
+    "movieName": "小门神（3D）",
+    "movieNum": "001c06162015",
+    "cenimaList": [
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "中国横店",
+        "grossAll": 1234,
+        "hallcount": 1234,
+        "ticketAll": 1234,
+        "seatAll": 5768
+      },
+      {
+        "cinemaId": 11051802,
+        "cinemaName": "中国横店2",
+        "grossAll": 1234,
+        "hallcount": 1234,
+        "ticketAll": 1234,
+        "seatAll": 5768
+      }
+    ]
+  }
+
+}

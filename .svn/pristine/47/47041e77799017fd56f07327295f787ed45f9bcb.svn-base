@@ -1,0 +1,62 @@
+'use strict';
+angular.module('app')
+    .controller('allCinemaCtrl', function($scope,movieService, $state, $rootScope, $filter,calculate,baseData) {
+        // 日期插件
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        // 可否编辑
+        $scope.date == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = true : $scope.isEditable = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        $scope.select = function(date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.startDate = '2015-09-01';
+        $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.selected = $state.params.date;
+        var datePre = calculate.neighborDay($scope.date, -1);
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function() {
+            $state.go('allCinema', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function() {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('allCinema', {date: dateNext});
+        };
+        //影院详情接口
+        //实时票房
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        var dateArray = $scope.date.split('-');
+        $scope.id = $state.params.id;
+        $scope.params = {
+            theatreId: baseData.theatreId,
+            //movieId: $state.params.id,
+            //qTime: 1447516800
+            qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], 0, 0, 0)).getTime() / 1000
+
+        };
+        console.log(baseData.theatreId);
+        $scope.getallCinemasDistribution = function () {
+            movieService.allCinemasDistribution($scope.params).then(function (res) {
+                $scope.allCinemasDistribution = res.data;
+                angular.forEach($scope.allCinemasDistribution.results.cinemaList, function (val, item) {
+                 val.grossAll = val.grossAll * 1;
+                 val.ticketAll = val.ticketAll * 1;
+                 val.averageTicket = val.averageTicket * 1;
+                 });
+            })
+        };
+        $scope.orderByFeild = 'movieName';
+        $scope.getallCinemasDistribution();
+
+
+    });

@@ -1,0 +1,89 @@
+<div class="container-fluid wrap">
+    <div class="row">
+        <div class="tittle">
+            <img ui-sref="boxOffice({date: date})" src="../image/back2.png" alt="back"/>
+            <h2>影片票房</h2>
+        </div>
+        <div class=" dateTools hbox">
+            <ul class="flex1 day_left">
+                <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                        class="day_choose before">{{datePre}}</i></li>
+            </ul>
+            <ul id="ticketHisDate"
+                data-com="dateBar,minDate:'2011-01',maxDate:'nextMonth',selectMaxDate:'preSale',dateFmt:'full_day',preSale:'7'">
+                <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                    <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                    <img src="image/date.png"/>
+                    <span id="theDay" style="display:none"></span>
+                </li>
+            </ul>
+            <ul class="flex1 day_right">
+                <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                        class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext}}</i></li>
+            </ul>
+        </div>
+        <div id="loadTip">
+            努力加载中...
+        </div>
+        <div id="container" style="width:100%; transform:translate(0px,-61px);position: relative;">
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{currentDate | date:'HH:mm'}}</span></p>
+            </div>
+            <table class="mainbody table display" id="example" style="border-top: 1px solid #b5c8f1">
+                <thead>
+                <tr>
+                    <th id="filmName">影片</th>
+                    <th style="border-bottom: 2px solid #f69b15">
+                        <button class="active" ng-click="orderByFeild = 'grossRate'; reverseSort = !reverseSort">票房占比
+                        </button>
+                    </th>
+                    <th style="border-bottom: 2px solid #10c997">
+                        <button class="active" ng-click="orderByFeild = 'scheduleRate'; reverseSort = !reverseSort">
+                            排片占比
+                        </button>
+                    </th>
+                    <th style="border-bottom: 2px solid #5682dc">
+                        <button class="active"
+                                ng-click="orderByFeild = 'seatOccupancyRate'; reverseSort = !reverseSort">上座率
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in movieBoxOffice.results.movieList | orderBy:orderByFeild:reverseSort"
+                    ui-sref="filmRanking({id:li.movieId,date: date,movieNum:li.movieNum,movieNumS:li.movieNumS,movieName:li.movieName})" class="circleListTr">
+                    <td class="ng-binding circleList" colspan="4">
+                        <div class="col-sm-4 col-xs-4 circleListName"><span class="orderNumber col-sm-3 col-xs-3"
+                                                                            ng-class="{colorRed:$index <= 2,colorGray:$index >=3}"
+                                                                            style="padding-left: 0;padding-right: 0;margin-top: 6px">{{$index+1 | secondNumFilter}}</span><span
+                                class="col-sm-9 col-xs-9" style="text-align: left;padding-left: 10px;padding-right: 0;">{{li.movieName}}<br/><span
+                                style="color: #e54c37">{{li.grossAll}}元</span></span></div>
+                        <div class="col-sm-8 col-xs-8 circleWrap">
+                            <div class="circleBackground circleBackground1"></div>
+                            <div class="circleBackground circleBackground2"></div>
+                            <div class="circleBackground circleBackground3"></div>
+                            <div id="{{li.mainId}}" ng-class="selectLast($index)" class="circle"></div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="width: 640px;
+                        height: 100%;
+                        background: #ffffff;
+                        position: absolute;
+                        top: 0;right:0;
+                        left:0;
+                        z-index: 99"
+                 ng-show="loadingShow == true">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

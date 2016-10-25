@@ -1,0 +1,186 @@
+<div class="container-fluid wrap">
+
+    <div class="row">
+        <header class="logo">
+            <div id="tittle">{{boxoffice.theatreName}}</div>
+        </header>
+        <div class=" dateTools hbox">
+            <ul class="flex1 day_left">
+                <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                        class="day_choose before">{{datePre | date:'MM-dd'}}</i></li>
+            </ul>
+            <ul id="ticketHisDate"
+                data-com="dateBar,minDate:'2011-01',maxDate:'nextMonth',selectMaxDate:'preSale',dateFmt:'full_day',preSale:'7'">
+                <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                    <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                    <img src="../image/date.png"/>
+                    <span id="theDay" style="display:none"></span>
+                </li>
+            </ul>
+            <ul class="flex1 day_right">
+                <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                        class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext | date:'MM-dd'}}</i></li>
+            </ul>
+        </div>
+        <datepicker ng-model="selected" start-date="startDate" end-date="endDate"></datepicker>
+        <div id="loadTip">
+            <div style="color: #edb948;margin: 0 auto;display: inline-block;" class="la-cog">
+                <div></div>
+            </div>
+            <span style="vertical-align: top;color: #edb948;font-size: 30px;">loading...</span>
+        </div>
+
+
+
+        <div id="container" style="width:100%; transform:translate(0px,-61px);position: relative;">
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{boxoffice.results.updateTime | date:'HH:mm'}}</span>
+                </p>
+            </div>
+            <table class="table result boxOfficeTable">
+                <thead>
+                <tr>
+                    <td><img src="image/film.png"/></td>
+                    <td><img src="image/total.png"/></td>
+                    <td><img src="image/zuowei.png"/></td>
+                </tr>
+                <tr>
+                    <td style="width:33.33%" class="nummber1">{{boxoffice.results.grossAll/10000 | toFix}}</td>
+                    <td style="width:33.33%" class="nummber2">{{boxoffice.results.hallCount}}</td>
+                    <td style="width:33.33%" class="nummber3">{{boxoffice.results.seatOccupancyRateAll}}%</td>
+                </tr>
+                <tr>
+                    <td>日总票房</td>
+                    <td>日总排片</td>
+                    <td>上座率</td>
+                </tr>
+                <tr class="blank"></tr>
+                </thead>
+            </table>
+            <div class="col-xs-3 film-office">影片日票房</div>
+            <div class="col-xs-2 pull-right look-more" ui-sref="filmBoxOffice({date: date,id:boxoffice.ownerId})">查看更多
+            </div>
+            <table class="mainbody boxOfficeTh boxOffice table display">
+                <thead class="theadIndex">
+                <tr>
+                    <th id="film">影片名称</th>
+                    <th>票房占比</th>
+                    <th>排片占比</th>
+                    <th>上座率</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class=" boxOfficeTr"
+                    ui-sref="filmRanking({date:date,id:li.movieList[0].movieId,back:2,movieNum:li.movieList[0].movieNum, movieNumS:li.movieList[0].movieNumS,movieName:li.movieList[0].movieName})">
+                    <td class="ng-binding" colspan="4" style="padding: 1px 0;line-height: 27px;height: 100px;">
+                        <div class="col-sm-4 col-xs-4" style="padding: 14px 0 0 18px;"><span
+                                class="orderNumber col-sm-3 col-xs-3">01</span><span
+                                class="boxOfficeName col-sm-9 col-xs-9">{{li.movieList[0].movieName}}<br><span
+                                class="boxOfficeNum">{{li.movieList[0].grossAll}}元</span></span>
+                        </div>
+                        <div class="col-sm-8 col-xs-8" id="main0" style="height:116px;padding:0;"></div>
+                    </td>
+                </tr>
+                <tr class=" boxOfficeTr"
+                    ui-sref="filmRanking({date:date,id:li.movieList[1].movieId,back:2,movieNum:li.movieList[1].movieNum, movieNumS:li.movieList[1].movieNumS,movieName:li.movieList[1].movieName})">
+                    <td class="ng-binding" colspan="4" style="padding: 1px 0;line-height: 27px;height: 100px;">
+                        <div class="col-sm-4 col-xs-4" style="padding: 14px 0 0 18px;"><span
+                                class="orderNumber col-sm-3 col-xs-3">02</span><span
+                                class="boxOfficeName col-sm-9 col-xs-9">{{li.movieList[1].movieName}}<br><span
+                                class="boxOfficeNum">{{li.movieList[1].grossAll}}元</span></span>
+                        </div>
+                        <div class="col-sm-8 col-xs-8" id="main1" style="height:116px;padding:0;"></div>
+                    </td>
+                </tr>
+                <tr class=" boxOfficeTr"
+                    ui-sref="filmRanking({date:date,id:li.movieList[2].movieId,back:2,movieNum:li.movieList[2].movieNum, movieNumS:li.movieList[2].movieNumS,movieName:li.movieList[2].movieName})">
+                    <td class="ng-binding" colspan="4" style="padding: 1px 0;line-height: 27px;height: 100px;">
+                        <div class="col-sm-4 col-xs-4" style="padding: 14px 0 0 18px;"><span
+                                class="orderNumber col-sm-3 col-xs-3">03</span><span
+                                class="boxOfficeName col-sm-9 col-xs-9">{{li.movieList[2].movieName}}<br><span
+                                class="boxOfficeNum">{{li.movieList[2].grossAll}}元</span></span>
+                        </div>
+                        <div class="col-sm-8 col-xs-8" id="main2" style="height:116px;padding:0;"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="col-xs-3 film-office">影院日票房</div>
+            <div class="col-xs-3 pull-right look-more" ui-sref="allCinema({id:boxoffice.ownerId,date: date})">查看更多</div>
+            <table class="mainbody boxOfficeTh table display table table-striped" id="example">
+                <thead class="theadIndex">
+                <tr>
+                    <th id="cinema">影院名称</th>
+                    <th>票房</th>
+                    <th>人次</th>
+                    <th>场均人次</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ui-sref="singleCinema({id:li.cinemaList[0].cinemaId,date:date,back:2,cinemaName:li.cinemaList[0].cinemaName})">
+                    <td class="ng-binding filmTitle"><span class="orderNumber col-sm-3 col-xs-3"
+                                                           style="text-indent: 0;text-align: center">01</span><span
+                            class="boxOfficeName col-sm-9 col-xs-9" style="color: #5683e1;">{{li.cinemaList[0].cinemaName}}</span>
+                    </td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[0].grossAll}}元</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[0].ticketAll}}人</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[0].averageTicket}}人</td>
+                </tr>
+                <tr ui-sref="singleCinema({id:li.cinemaList[1].cinemaId,date:date,back:2,cinemaName:li.cinemaList[1].cinemaName})">
+                    <td class="ng-binding filmTitle"><span class="orderNumber col-sm-3 col-xs-3"
+                                                           style="text-indent: 0;text-align: center">02</span><span
+                            class="boxOfficeName col-sm-9 col-xs-9" style="color: #5683e1;">{{li.cinemaList[1].cinemaName}}</span>
+                    </td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[1].grossAll}}元</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[1].ticketAll}}人</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[1].averageTicket}}人</td>
+                </tr>
+                <tr ui-sref="singleCinema({id:li.cinemaList[2].cinemaId,date:date,back:2,cinemaName:li.cinemaList[2].cinemaName})">
+                    <td class="ng-binding filmTitle"><span class="orderNumber col-sm-3 col-xs-3"
+                                                           style="text-indent: 0;text-align: center">03</span><span
+                            class="boxOfficeName col-sm-9 col-xs-9" style="color: #5683e1;">{{li.cinemaList[2].cinemaName}}</span>
+                    </td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[2].grossAll}}元</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[2].ticketAll}}人</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[2].averageTicket}}人</td>
+                </tr>
+                <tr ui-sref="singleCinema({id:li.cinemaList[3].cinemaId,date:date,back:2,cinemaName:li.cinemaList[3].cinemaName})">
+                    <td class="ng-binding filmTitle"><span class="orderNumber col-sm-3 col-xs-3"
+                                                           style="text-indent: 0;text-align: center">04</span><span
+                            class="boxOfficeName col-sm-9 col-xs-9" style="color: #5683e1;">{{li.cinemaList[3].cinemaName}}</span>
+                    </td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[3].grossAll}}元</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[3].ticketAll}}人</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[3].averageTicket}}人</td>
+                </tr>
+                <tr ui-sref="singleCinema({id:li.cinemaList[4].cinemaId,date:date,back:2,cinemaName:li.cinemaList[4].cinemaName})">
+                    <td class="ng-binding filmTitle"><span class="orderNumber col-sm-3 col-xs-3"
+                                                           style="text-indent: 0;text-align: center">05</span><span
+                            class="boxOfficeName col-sm-9 col-xs-9" style="color: #5683e1;">{{li.cinemaList[4].cinemaName}}</span>
+                    </td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[4].grossAll}}元</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[4].ticketAll}}人</td>
+                    <td class="text-right padding-right-30px">{{li.cinemaList[4].averageTicket}}人</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="footer">
+                <div class="recommended" ui-sref="recommendedFilm">推荐排片
+                </div>
+                <div class="pre" ui-sref="preOffice">预排片</div>
+            </div>
+            <div  class="boxOfficeLoadingShow" ng-show="loadingShow == true" id="boxOfficeLoadingShow">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                </div>
+            </div>
+            <div class="boxOfficePullDown" ng-show="dataNone == true" id="pullDown">
+                抱歉，暂无数据
+            </div>
+        </div>
+    </div>
+</div>

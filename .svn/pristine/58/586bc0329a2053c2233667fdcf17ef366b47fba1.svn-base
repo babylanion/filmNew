@@ -1,0 +1,19 @@
+http://124.251.61.221/ajax-default/hd/gross/realtime.action?theatreId=12345&qTime=1452009600
+
+
+nginx配置
+	server {
+
+        listen       80;
+        server_name  localhost;
+        location / {
+            root  D:/ptteng_workspace/filmNew-html/trunk; 
+            index index.html ;
+        }
+	    location /ajax-default/ {
+            proxy_pass   http://211.151.185.5/ajax-default/;
+	    proxy_set_header		Host						211.151.185.5;
+	    proxy_set_header		X-Real-IP					$remote_addr;
+	    proxy_set_header		X-Forwarded-For		        $proxy_add_x_forwarded_for;
+        }
+	}

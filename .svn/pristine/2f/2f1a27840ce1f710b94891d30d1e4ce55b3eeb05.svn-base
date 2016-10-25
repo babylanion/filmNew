@@ -1,0 +1,75 @@
+'use strict';
+angular.module('app')
+    .controller('LoginCtrl',["$scope", "$state", '$timeout','$cookies', 'movieService',function ($scope, $state, $timeout,$cookies,movieService) {
+
+        if($cookies.get('user') == undefined)
+        {
+            $scope.store_password = false;//不保存密码
+            $scope.user = '';
+            $scope.passwd = '';
+        } else {
+            $scope.store_password = true;//保存密码
+            $scope.user = $cookies.get('user');
+            $scope.passwd = $cookies.get('passwd');
+        }
+
+        $scope.error = '';
+        //$scope.$watch('error',function(){
+        //    $timeout(function(){
+        //        var left = document.getElementById('error').offsetWidth;
+        //        left = (640 - parseInt(left))/2 + "px";
+        //        $('#error').css('left',left);
+        //    })
+        //});
+
+        $scope.submit = function(){
+
+            var param = {
+                cinemaId: 1,
+                username: $scope.user,
+                password: $scope.passwd
+            };
+            movieService.login(param).then(function(res){
+                if(res.data.code == 'A00500')
+                {
+                    $scope.error = '';
+                    // Find tomorrow's date.
+                    var expireDate = new Date();
+                    expireDate.setMinutes(expireDate.getMinutes() + 10);
+                    // Setting a cookie
+                    $cookies.put('sessionID','hengdianly', {'expires': expireDate});
+                    if($scope.store_password)
+                    {
+                        //$cookies.put('theatreId', $scope.theatreId);
+                        $cookies.put('user', $scope.user);
+                        $cookies.put('passwd', $scope.passwd);
+                    } else {
+                        //$cookies.remove('theatreId');
+                        $cookies.remove('user');
+                        $cookies.remove('passwd');
+                    }
+                    $state.go('boxOffice');
+                } else {
+                    $scope.error = '账户名或密码不正确';
+                    //var left = document.getElementById('error').offsetWidth;
+                    //left = (720- parseInt(left))/2 + "px";
+                    //$('#error').css('left',left);
+                    $timeout(function(){
+                        $scope.error = '';
+                    },3000);
+                }
+            });
+        };
+
+        $scope.clear = function(param){
+            $scope[param] = '';
+        };
+        ////输入用户名密码时
+        //$("input").focus(function(){
+        //    $(".login_header").css("height","350px");
+        //});
+        //$("input").blur(function(){
+        //    $(".login_header").css("height","527px");
+        //});
+
+    }]);

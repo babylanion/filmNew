@@ -1,0 +1,50 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 111345,
+  "theatreName": "横店",
+  "results": {
+    "updateTime": 1452521199000,
+    "pageIdx": 0,
+    "pageSize": 5,
+    "cinemaList": [
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "北京传奇时代电影城",
+        "grossAll": 13,
+        "hallCount": 13,
+        "ticketAll": 123,
+        "seatAll": 56,
+        "averageTicket": 86
+      },
+      {
+        "cinemaId": 11001801,
+        "cinemaName": "北京电影城",
+        "grossAll": 1213,
+        "hallCount": 1223,
+        "ticketAll": 1213,
+        "seatAll": 57,
+        "averageTicket": 81
+      },
+      {
+        "cinemaId": 11051801,
+        "cinemaName": "北京传奇时代电影城",
+        "grossAll": 223,
+        "hallCount": 223,
+        "ticketAll": 223,
+        "seatAll": 267,
+        "averageTicket": 26
+      },
+      {
+        "cinemaId": 11001801,
+        "cinemaName": "北京电影城",
+        "grossAll": 143,
+        "hallCount": 133,
+        "ticketAll": 153,
+        "seatAll": 517,
+        "averageTicket": 46
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+.legend {
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+.legendImg {
+
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    margin-right: 6px;
+}
+
+.legendName {
+    font-size: 18px;
+    color: #cfd9e0;
+    line-height: 28px;
+    vertical-align: top;
+    margin-right: 30px;
+}
+
+.legendImgOuter {
+    background: url("../image/outer.png") no-repeat;
+}
+
+.legendImgInner {
+    background: url("../image/inner.png") no-repeat;
+    margin-left: 30px;
+}

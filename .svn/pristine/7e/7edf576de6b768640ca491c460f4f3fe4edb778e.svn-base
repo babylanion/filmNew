@@ -1,0 +1,102 @@
+'use strict';
+angular.module('app')
+    .controller('filmRankingCtrl', function ($scope, movieService, $state, $rootScope, $filter, calculate) {
+        // 日期插件
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        if ($state.params.id) {
+            localStorage.setItem('id', $state.params.id);
+            $scope.id = $state.params.id;
+        } else {
+            $scope.id = localStorage.getItem('id');
+        }
+        // 可否编辑
+        $scope.date == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = true : $scope.isEditable = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        $scope.select = function (date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.startDate = '2015-09-01';
+        $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        $scope.selected = $state.params.date;
+        var datePre = calculate.neighborDay($scope.date, -1);
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function () {
+            $state.go('filmRanking', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function () {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('filmRanking', {date: dateNext});
+        };
+        //返回按钮
+        $scope.back = $state.params.back;
+        $scope.backPre = function(){
+            if($scope.back == 2){
+                $state.go("boxOffice",{},{reload:true});
+            } else {
+
+                $state.go("filmBoxOffice",{},{reload:true});
+            }
+        };
+        //实时票房
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        var dateArray = $scope.date.split('-');
+        $scope.params = {
+            theatreId: 12345,
+            movieId: $scope.id,
+            qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], 0, 0, 0)).getTime() / 1000
+            //qTime: "1452470400"
+        };
+        $scope.getmovieRanking = function () {
+            movieService.movieRanking($scope.params).then(function (res) {
+                $scope.movieRanking = res.data;
+                angular.forEach($scope.movieRanking.results.movieList, function (val, item) {
+                    val.scheduleRate = val.scheduleRate * 1;
+                    val.grossRate = val.grossRate * 1;
+                    val.seatOccupancyRate = val.seatOccupancyRate * 1;
+                });
+            })
+        };
+        $scope.orderByFeild = 'movieName';
+        $scope.getmovieRanking();
+        var num = 0;
+        $scope.order = function () {
+            if (num == 0) {
+                $scope.movieRanking.results.cinemaList.sort(function (a, b) {
+                    return b.showRate - a.showRate;
+                })
+            } else {
+                $scope.movieRanking.results.cinemaList.reverse();
+            }
+
+            num++;
+        };
+
+
+
+        $(function () {
+
+            slide("#container", 61, function (e) {
+                var that = this;
+
+                setTimeout(function () {
+                    that.back.call(
+                        console.log('aaa'),
+                        $scope.movieRanking= {},
+                        $scope.getmovieRanking()
+                    );
+                }, 1000);
+
+            });
+        });
+    });

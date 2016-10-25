@@ -1,0 +1,66 @@
+<div class="container-fluid wrap">
+    <div class="row">
+        <div ui-view>
+            <div class="tittle">
+                <!--<a href="javascript:history.go(-1)"><img src="../image/back2.png" alt="back" /></a>-->
+                <img ui-sref="boxOffice({date: date})" src="../image/back2.png" alt="back"/>
+                <h2>影城票房</h2>
+            </div>
+            <div class=" dateTools hbox">
+                <ul class="flex1 day_left">
+                    <li class="canTouch" id="ticketHis_preDay" data-com="canTouch" ng-click="prevDay()"><i
+                            class="day_choose before">{{datePre}}</i></li>
+                </ul>
+                <ul id="ticketHisDate" data-com="dateBar,
+              minDate:'2011-01',
+              maxDate:'nextMonth',
+              selectMaxDate:'preSale',
+              dateFmt:'full_day',
+              preSale:'7'">
+                    <li class="flex1 canTouch numDate posRel" datebaritem="" ui-sref="datePick({date: date})">
+                        <span showtxt="" id="ticketHis_queryDate" rawdate="{{date}}">{{date}} <i>{{coorDay}}</i></span>
+                        <img src="image/date.png"/>
+                        <span id="theDay" style="display:none"></span>
+                    </li>
+                </ul>
+                <ul class="flex1 day_right">
+                    <li class="canTouch" id="ticketHis_nextDay" data-com="canTouch" ng-click="nextDay()"><i
+                            class="day_choose after" ng-class="isEditable?'gray':''">{{dateNext}}</i></li>
+                </ul>
+            </div>
+            <!--<datepicker ng-model="selected" start-date="startDate" end-date="endDate"></datepicker>-->
+            <div class="col-md-12">
+                <p class="under">上次更新时间:<span>{{boxoffice.results.updateTime | date:'HH:mm'}}</span></p>
+            </div>
+            <table class="mainbody table table-striped display" id="example">
+                <thead>
+                <tr>
+                    <th id="Studios">影院名称</th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'grossAll'; reverseSort = !reverseSort">总票房
+                        </button>
+                    </th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'ticketAll'; reverseSort = !reverseSort">总人次
+                        </button>
+                    </th>
+                    <th>
+                        <button class="active" ng-click="orderByFeild = 'averageTicket'; reverseSort = !reverseSort">
+                            场均人次
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in allCinemasDistribution.results.cinemaList | orderBy:orderByFeild:reverseSort"
+                    ui-sref="singleCinema({date: date,id:li.cinemaId})">
+                    <td class="ng-binding filmTitle">{{li.cinemaName}}</td>
+                    <td class="ng-binding">{{li.grossAll}}万</td>
+                    <td class="ng-binding">{{li.ticketAll}}人</td>
+                    <td class="ng-binding">{{li.averageTicket}}人</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

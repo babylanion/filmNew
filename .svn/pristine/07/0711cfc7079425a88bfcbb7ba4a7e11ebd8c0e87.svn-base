@@ -1,0 +1,197 @@
+"use strict";
+var indexOf = [].indexOf || function (item) {
+        for (var i = 0, l = this.length; i < l; i++) {
+            if (i in this && this[i] === item) {
+                return i;
+            }
+        }
+        return -1;
+    };
+
+angular.module("app")
+
+    .factory("datePickerUtils", ["$filter", function ($filter) {
+        return {
+            isDate: function (obj) {
+                return Object.prototype.toString.call(obj) === "[object Date]";
+            },
+
+            buildDates: function (date, options) {
+                var dates = [],
+                    lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 3);
+
+                options = options || {};
+                date = new Date(date);
+
+                while (date.getDay() !== options.weekStartsOn) {
+                    date.setDate(date.getDate() - 1);
+                }
+
+                for (var i = 0; i < 42; i++) { // 42 == 6 rows of dates
+                    if (options.noExtraRows && date.getDay() === options.weekStartsOn && date > lastDate) break;
+
+                    dates.push(new Date(date));
+                    date.setDate(date.getDate() + 1);
+                }
+
+                return dates;
+            },
+
+            buildDayNames: function (weekStartsOn) {
+                var dayNames = ['日', '一', '二', '三', '四', '五', '六'];
+
+                if (weekStartsOn) {
+                    dayNames = dayNames.slice(0);
+                    for (var i = 0; i < weekStartsOn; i++) {
+                        dayNames.push(dayNames.shift());
+                    }
+                }
+                return dayNames;
+            },
+
+            monthCourse: function (start, end) {
+                var months = [];
+                start = new Date(start);
+                end = new Date(end);
+                var differ = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+                for (var i = 0; i < differ; i++) {
+                    var newMonth = new Date(start.getFullYear(), start.getMonth() + i, 1);
+                    months.push($filter('date')(newMonth, 'yyyy-MM'));
+                }
+                return months;
+            }
+        };
+    }])
+
+    .directive("datepicker", ["$locale", "$location", "$filter", "datePickerUtils", function ($locale, location, $filter, dateUtils) {
+        return {
+            require: "ngModel",
+            restrict: "EA",
+            scope: {
+                date: "=ngModel",
+                startDate: "=",
+                endDate: "=",
+                status: "=",
+                onSelect: "&",
+
+                weekStartsOn: "=",
+                noExtraRows: "="
+            },
+            template: '<div class="pickadate-weeks">' +
+            '<div class="pickadate-week" ng-repeat="week in dayName">{{week}}</div>' +
+            '</div>' +
+            '<div class="pickadate-top"></div>' +
+            '<div class="pickadate" ng-repeat="month in monthsArray">' +
+            '<div class="pickadate-header">' +
+            '<h3 class="pickadate-centered-heading">' +
+            '{{month}}' +
+            '</h3>' +
+            '</div>' +
+            '<div class="pickadate-body">' +
+            '<div class="pickadate-main">' +
+            '<ul class="pickadate-cell">' +
+            '<li bindonce ng-repeat="d in dates[month]" ng-click="setDate(d, month)">' +
+            '<div class="{{d.className}}" >' +
+            '<b>{{d.dateObj | date:"d"}}</b>' +
+            '</div></li>' +
+            '</ul>' +
+            '</div>' +
+            '</div>' +
+            '</div>',
+
+            link: function (scope, element, attrs, ngModel) {
+                var weekStartsOn = scope.weekStartsOn || 0,
+                    noExtraRows = attrs.hasOwnProperty("noExtraRows"),
+                    today = $filter("date")(new Date(), "yyyy-MM-dd")
+                    ;
+
+                // 一周伊始于
+                if (!angular.isNumber(weekStartsOn) || weekStartsOn < 0 || weekStartsOn > 6) {
+                    weekStartsOn = 0;
+                }
+                scope.dayName = dateUtils.buildDayNames(weekStartsOn);
+
+                // 从startDate到endDate的年月数组
+                scope.monthsArray = dateUtils.monthCourse(scope.startDate, scope.endDate);
+
+                scope.render = function () {
+                    scope.dates = {};
+
+                    // 创建每月的数据
+                    angular.forEach(scope.monthsArray, function (item, j) {
+                        var initDate = new Date((new Date(item)).getFullYear(), (new Date(item)).getMonth(), 1, 3);
+                        var currentMonth = initDate.getMonth() + 1;
+                        var allDates = dateUtils.buildDates(initDate, {weekStartsOn: weekStartsOn, noExtraRows: true});
+                        var dates = [];
+
+                        for (var i = 0; i < allDates.length; i++) {
+                            var className = "pickadate-enabled",
+                                dateObj = allDates[i],
+                                date = $filter("date")(dateObj, "yyyy-MM-dd");
+
+                            // 非当前月的灰掉
+                            if ($filter('date')(dateObj, "M") !== currentMonth.toString()) {
+                                className = "pickadate-hide pickadate-disabled";
+                            }
+                            if (date < scope.startDate && scope.status!='') {
+                                className = "pickadate-hide pickadate-disabled";
+                            }
+                            // 今天的颜色不一样
+                            if (scope.status=='' && date === today && $filter("date")(dateObj, "M") === currentMonth.toString()) {
+                                className = "pickadate-active";
+                            }
+                            // 选中的颜色不一样
+                            if (date === scope.date && date.indexOf(item) > -1) {
+                                className = "pickadate-selected";
+                            }
+                            // 大于enddate的灰掉
+                            if (date > scope.endDate) {
+                                className = "pickadate-hide pickadate-disabled";
+                            }
+
+                            dates.push({date: date, dateObj: dateObj, className: className});
+                        }
+
+                        scope.dates[item] = dates;
+                    });
+
+                };
+
+                // 点击后样式重置
+                scope.setDate = function (dateObj, month) {
+                    if (isDateDisabled(dateObj)) {
+                        return;
+                    }
+                    ngModel.$setViewValue(dateObj.date);
+
+                    scope.selectedDate = dateObj.date;
+
+                    angular.forEach(scope.dates, function (value, key) {
+                        for (var j = 0, len = scope.dates[key].length; j < len; j++) {
+                            if (scope.dates[key][j].className == "pickadate-selected") {
+                                scope.dates[key][j].className = 'pickadate-enabled';
+                            }
+                            if (scope.dates[key][j].date == today) {
+                                scope.dates[key][j].className = "pickadate-active";
+                            }
+                            if (scope.dates[key][j].date == dateObj.date && dateObj.date.indexOf(key) > -1) {
+                                scope.dates[key][j].className = "pickadate-selected";
+                            }
+
+                        }
+                    });
+                    scope.onSelect();
+                };
+
+                ngModel.$render = function () {
+                    scope.render();
+
+                };
+
+                function isDateDisabled(dateObj) {
+                    return (/pickadate-disabled/.test(dateObj.className));
+                }
+
+            }
+        };
+    }]);

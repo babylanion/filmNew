@@ -1,0 +1,251 @@
+'use strict';
+angular.module('app')
+    .controller('recommendedFilmCtrl', ["$scope", "$state","$rootScope", "$filter","$cookies", "movieService", "calculate", "baseData",function ($scope, $state,$rootScope, $filter,$cookies, movieService, calculate, baseData) {
+        // 鏃ユ湡鎻掍欢
+        if (!$state.params.date) {
+            $scope.date = $filter('date')(new Date().getTime() + 86400000, 'yyyy-MM-dd');
+        } else {
+            $scope.date = $state.params.date;
+        }
+        // 可否编辑
+        var datePre = calculate.neighborDay($scope.date, -1);
+        datePre == $filter('date')(new Date(), 'yyyy-MM-dd') ? $scope.isEditable = false : $scope.isEditable = true;
+        $scope.date == $filter('date')(new Date().getTime() + 7 * 86400000, 'yyyy-MM-dd') ? $scope.isEditable1 = true : $scope.isEditable1 = false;
+
+        $scope.coorDay = calculate.coorDay($scope.date);
+        $scope.select = function (date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        $scope.datePre = datePre.slice(5);
+        $scope.prevDay = function () {
+            if ($scope.date == $filter('date')(new Date().getTime() + 86400000, 'yyyy-MM-dd')) {
+                return false;
+            }
+            $state.go('recommendedFilm', {date: datePre});
+        };
+        var dateNext = calculate.neighborDay($scope.date, 1);
+        $scope.dateNext = dateNext.slice(5);
+        $scope.nextDay = function () {
+            if ($scope.date == $filter('date')(new Date(), 'yyyy-MM-dd')) {
+                return false;
+            }
+            if($scope.date == $filter('date')(new Date().getTime() + 7 * 86400000, 'yyyy-MM-dd')) return;
+            $state.go('recommendedFilm', {date: dateNext});
+        };
+        //实时票房
+        var dateArray = $scope.date.split('-');
+        var timeArray = $filter('date')(new Date(), 'HH:mm').split(':');
+        //瀹炴椂绁ㄦ埧
+        $scope.orderByFeild = '';
+        $scope.reverseSort = false;
+        //查看时间戳转日期
+        function getLocalTime(nS) {
+            return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+        }
+        //更新时间
+        //$scope.currentDate = new Date();
+        //影片详情接口
+        $scope.isPullDown = false;//初始化下拉为false启用loading
+        $scope.getrecommended = function () {
+            if($scope.isPullDown == false){
+                $scope.loadingShow = true;
+            }
+            dateArray = $scope.date.split('-');
+            timeArray = $filter('date')(new Date(), 'HH:mm').split(':');
+            $scope.params = {
+                theatreId: $cookies.get('theatreId'),
+                qTime: (new Date(dateArray[0], dateArray[1] - 1, dateArray[2], timeArray[0], timeArray[1], 0)).getTime() / 1000
+            };
+            //打印当前请求时间戳转换日期
+            console.log(getLocalTime($scope.params.qTime));
+            $scope.temp = {
+                dataName: [],
+                outer: [],
+                inner: []
+            };
+            $scope.dataNone = false;//是否显示无数据提示
+            movieService.recommended($scope.params).then(function (res) {
+                $scope.recommended = res.data;
+                if($scope.recommended == undefined || $scope.recommended.results.predictMovieList.length == 0 || $scope.recommended.results.realMovieList.length == 0){
+                    $scope.loadingShow = false;
+                    $scope.dataNone = true;
+                }else {
+                    angular.forEach($scope.recommended.results.realMovieList, function (val) {
+                        angular.forEach($scope.recommended.results.predictMovieList, function (val2) {
+                            if (val.movieId == val2.movieId) {
+                                val.scheduleRatePre = val2.scheduleRate;
+                            }
+
+                        });
+                        $scope.temp.dataName.push(val.movieName);
+                        $scope.temp.outer.push(val.scheduleRate);
+                        $scope.temp.inner.push(val.scheduleRatePre);
+                        /*val.ticketRate = val.ticketRate * 1;
+                         val.seatOccupancyRate = val.seatOccupancyRate * 1;*/
+                    });
+                    console.log($scope.temp);
+                    $scope.renderChart($scope.temp);
+                    $scope.currentDate = $scope.recommended.results.updateTime;
+                }
+                $scope.loadingShow = false;
+                $scope.isPullDown = true;
+                hideLoading("#container");
+                $('#loadTip').css('visibility','hidden');
+            })
+        };
+        $scope.orderByFeild = 'movieName';
+        $scope.getrecommended();
+        //loading
+        $scope.boxOfficeSearch = function(){
+            $scope.loadingShow = !$scope.loadingShow;
+        };
+        //图表
+        $scope.renderChart = function (temp) {
+            console.log('进入');
+            var radius1 = [107, 120];
+            var radius2 = [35, 74];
+            var outer = temp.outer;
+            var inner = temp.inner;
+            var name = temp.dataName;
+            var option = {
+                animation:false,
+                legend: {
+                    show: false,
+                    orient: 'vertical',
+                    x: 'left',
+                    data: name
+                },
+                series: [
+
+                    {
+                        type: 'pie',
+                        center: ['50%', '55%'],
+                        radius: radius1,
+                        x: '0%', // for funnel
+
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '18'
+                                    },
+                                    formatter: "{b}\n{d}%"
+                                },
+                                labelLine: {
+                                    show: true
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: false,
+                                    position: 'center',
+                                    textStyle: {
+                                        fontSize: '18',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            }
+                        },
+                        data: []
+                    },
+                    {
+                        type: 'pie',
+                        center: ['50%', '55%'],
+                        radius: radius2,
+                        x: '0%', // for funnel
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    position: 'outer',
+                                    align: 'center',
+                                    formatter: function (params) {
+                                        return (params.percent - 0).toFixed(0) + '%'
+                                    }
+                                },
+                                labelLine: {
+                                    show: false,
+                                    position: 'inner',
+                                    length: -13
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: false
+                                },
+                                labelLine: {
+                                    show: false,
+                                    position: 'outer',
+                                    length: -18
+                                }
+                            }
+                        },
+                        data: []
+                    }
+                ]
+            };
+
+            for (var i = 0; i < name.length; i++) {
+                var dataBox = {
+                    outerData: {
+                        name: name[i],
+                        value: outer[i]
+                    },
+                    innerData: {
+                        name: name[i],
+                        value: inner[i]
+                    }
+                };
+                option.series[0].data.push(dataBox.outerData);
+                option.series[1].data.push(dataBox.innerData);
+                //option.series[3].data.push(dataBox.innerData);
+            }
+            var myChart = echarts.init(document.getElementById('main'));
+            myChart.setOption(option);
+        };
+
+        //下拉刷新调用
+        var hideLoading = function(obj1){
+            var obj = $(obj1);
+            var fn1 =
+            {
+                //移动容器
+                translate: function (diff) {
+                    obj.css({
+                        "-webkit-transform": "translate(0," + diff + "px)",
+                        "transform": "translate(0," + diff + "px)"
+                    });
+                },
+                //返回到初始位置
+                back: function () {
+                    fn1.translate(0 - 61);
+                }
+            };
+            fn1.back();
+        };
+
+        $(function () {
+            slide("#container", 61, function (e) {
+                var that = this;
+
+                //setTimeout(function () {
+                //    that.back.call(
+                        console.log('aaa');
+                        $scope.recommended= {};
+                        $scope.firstFired = true;
+                        //$scope.currentDate = new Date();
+                        $scope.isPullDown = true;
+                        $scope.temp = {
+                            dataName: [],
+                            outer: [],
+                            inner: []
+                        };
+                        $scope.getrecommended();
+                //    );
+                //}, 1000);
+
+            });
+        });
+    }]);

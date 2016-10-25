@@ -1,0 +1,83 @@
+{
+  "msg": "success",
+  "code": "A00000",
+  "qTime": "1452470400",
+  "theatreId": 111345,
+  "theatreName": "横店",
+  "results": {
+    "updateTime": 1452521199000,
+    "grossAll": 1234,
+    "hallCount": 1234,
+    "ticketAll": 1234,
+    "seatAll": 5768,
+    "realMovieList": [
+      {
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015",
+        "grossAll": 123,
+        "hallCount": 123,
+        "ticketAll": 123,
+        "seatAll": 567,
+        "scheduleRate": 20
+      },
+      {
+        "movieId": 6016,
+        "movieName": "寻龙诀（3D）",
+        "movieNum": "001205952015",
+        "grossAll": 123,
+        "hallCount": 123,
+        "ticketAll": 123,
+        "seatAll": 567,
+        "scheduleRate": 80
+      },
+      {
+        "movieId": 6014,
+        "movieName": "小门神3（3D）",
+        "movieNum": "001c06162013",
+        "grossAll": 123,
+        "hallCount": 123,
+        "ticketAll": 123,
+        "seatAll": 567,
+        "scheduleRate": 60
+      },
+      {
+        "movieId": 6017,
+        "movieName": "寻龙诀2（3D）",
+        "movieNum": "001205952012",
+        "grossAll": 123,
+        "hallCount": 123,
+        "ticketAll": 123,
+        "seatAll": 567,
+        "scheduleRate": 40
+      }
+    ],
+    "predictMovieList": [
+      {
+        "movieId": 6013,
+        "movieName": "小门神（3D）",
+        "movieNum": "001c06162015",
+        "scheduleRate": 40
+      },
+      {
+        "movieId": 6016,
+        "movieName": "寻龙诀（3D）",
+        "movieNum": "001205952015",
+        "scheduleRate": 60
+      },
+      {
+        "movieId": 6014,
+        "movieName": "小门神3（3D）",
+        "movieNum": "001c06162013",
+        "scheduleRate": 22
+      },
+      {
+        "movieId": 6017,
+        "movieName": "寻龙诀2（3D）",
+        "movieNum": "001205952012",
+        "scheduleRate": 78
+      }
+    ]
+  }
+
+}

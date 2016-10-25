@@ -1,0 +1,121 @@
+/**
+ * Created by w on 2016/1/25.
+ */
+/*
+ *obj--滑动对象
+ *offset--滑动距离（当滑动距离大于等于offset时将调用callback）
+ *callback--滑动完成后的回调函数
+ */
+var slide = function (obj, offset, callback) {
+    var start,
+        end,
+        isLock = false,//是否锁定整个操作
+        isCanDo = false,//是否移动滑块
+        isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
+        hasTouch = 'ontouchstart' in window && !isTouchPad;
+
+    //将对象转换为jquery的对象
+    obj = $(obj);
+
+    var objparent = obj.parent();
+var tem =true;
+    /*操作方法*/
+    var fn =
+    {
+        //移动容器
+        translate: function (diff) {
+            obj.css({
+                "-webkit-transform": "translate(0," + diff + "px)",
+                "transform": "translate(0," + diff + "px)"
+            });
+        },
+        //设置效果时间
+        setTranslition: function (time) {
+            obj.css({
+                "-webkit-transition": "all " + time + "s",
+                "transition": "all " + time + "s"
+            });
+        },
+        //返回到初始位置
+        back: function () {
+            fn.translate(0 - offset);
+            //标识操作完成
+            isLock = false;
+
+        }
+    };
+    fn.translate(-60);
+    //滑动开始
+    obj.bind("touchstart", function (e) {
+        console.log($('body').scrollTop());
+        if ($('body').scrollTop() <= 0 && !isLock) {
+            var even = typeof event == "undefined" ? e : event;
+            //标识操作进行中
+            isLock = true;
+            isCanDo = true;
+            //保存当前鼠标Y坐标
+            start = hasTouch ? even.touches[0].pageY : even.pageY;
+            //消除滑块动画时间
+            fn.setTranslition(0);
+
+        }
+    });
+
+    //滑动中
+    obj.bind("touchmove", function (e) {
+        console.log($('body').scrollTop());
+        //$('#loadTip').css('visibility','visible');
+        if ($('body').scrollTop() <= 0 && isCanDo && isLock==true) {
+
+            var even = typeof event == "undefined" ? e : event;
+
+            //保存当前鼠标Y坐标
+            end = hasTouch ? even.touches[0].pageY : even.pageY;
+
+            if (start < end) {
+                //$('#loadTip').css('visibility','visible');
+                even.preventDefault();
+                //消除滑块动画时间
+                fn.setTranslition(0);
+                //移动滑块
+                fn.translate(end - start - offset);
+                tem =false;
+            }
+
+        }
+    });
+
+
+    //滑动结束
+    obj.bind("touchend", function (e) {
+        if (isCanDo) {
+            isCanDo = false;
+            isLock=false;
+            //判断滑动距离是否大于等于指定值
+            if (end - start >= offset) {
+                //设置滑块回弹时间
+                fn.setTranslition(1);
+                start =NaN;
+                console.log(';;;;;;;;;;;;;;;;;;;;;;;');
+                console.log(start);
+
+                //保留提示部分
+                fn.translate(-60);
+
+                //执行回调函数
+                if (typeof callback == "function" &&tem ==false) {
+                    callback.call(fn, e);
+                    //fn.back();
+                    tem = true;
+                    //$('#loadTip').css('visibility','hidden');
+                }
+            } else {
+                //返回初始状态
+                fn.back();
+                start =NaN;
+                tem = true;
+                //$('#loadTip').css('visibility','hidden');
+            }
+        }
+    });
+};

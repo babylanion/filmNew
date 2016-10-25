@@ -1,0 +1,60 @@
+'use strict';
+angular.module('app')
+    .controller('LoginCtrl',["$scope", "$state", '$timeout','$cookies', 'loginService',function ($scope, $state, $timeout,$cookies,loginService) {
+
+        if($cookies.get('theatreId') == undefined)
+        {
+            $scope.store_password = false;//不保存密码
+        } else {
+            $scope.store_password = true;//保存密码
+            $scope.theatreId = $cookies.get('theatreId');
+            $scope.user = $cookies.get('user');
+            $scope.passwd = $cookies.get('passwd');
+        }
+
+        $scope.error = '';
+        $scope.$watch('error',function(){
+            $timeout(function(){
+                var left = document.getElementById('error').offsetWidth;
+                left = (640 - parseInt(left))/2 + "px";
+                $('#error').css('left',left);
+            })
+        });
+
+        $scope.submit = function(){
+
+            var param = {
+                cinemaId: $scope.theatreId,
+                username: $scope.user,
+                password: $scope.passwd
+            };
+            loginService.login(param).then(function(res){
+                if(res.data.code == 'A00500')
+                {
+                    if($scope.store_password)
+                    {
+                        $cookies.put('theatreId', $scope.theatreId);
+                        $cookies.put('user', $scope.user);
+                        $cookies.put('passwd', $scope.passwd);
+                    } else {
+                        $cookies.remove('theatreId');
+                        $cookies.remove('user');
+                        $cookies.remove('passwd');
+                    }
+                    $state.go('boxOffice');
+                } else {
+                    $scope.error = res.data.message;
+                    var left = document.getElementById('error').offsetWidth;
+                    left = (720- parseInt(left))/2 + "px";
+                    $('#error').css('left',left);
+                    $timeout(function(){
+                        $scope.error = '';
+                    },3000);
+                }
+            });
+        };
+
+        $scope.clear = function(param){
+            $scope[param] = '';
+        }
+    }]);

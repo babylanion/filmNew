@@ -1,0 +1,2 @@
+<!--<div style="width: 640px;height: 76px"></div>-->
+<datepicker ng-model="selected" start-date="startDate" status="status" end-date="endDate" on-select="select(selected)"></datepicker>

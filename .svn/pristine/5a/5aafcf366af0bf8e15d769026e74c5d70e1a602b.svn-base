@@ -1,0 +1,24 @@
+'use strict';
+angular.module('app')
+    .controller('DatePickCtrl', function ($scope, $state, $rootScope, $filter) {
+        $scope.status = $state.params.status || '';
+        $scope.select = function (date) {
+            $state.go($rootScope.previousState, {date: date});
+        };
+
+        if($scope.status == '')
+        {
+            $scope.selected = $state.params.date;
+            $scope.startDate = '2015-09-01';
+            $scope.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+        } else {
+            var time = new Date().getTime() ;
+            console.log(time);
+            $scope.selected = $filter('date')(time + 86400000, 'yyyy-MM-dd');
+            $scope.startDate = $scope.selected;
+            $scope.endDate = $filter('date')(time + 7*86400000, 'yyyy-MM-dd');
+        }
+
+
+
+    });
